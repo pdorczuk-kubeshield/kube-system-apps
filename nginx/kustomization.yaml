@@ -1,0 +1,13 @@
+helmChartInflationGenerator:
+- chartName: ingress-nginx
+  chartRepoUrl: https://kubernetes.github.io/ingress-nginx
+  chartVersion: v3.22.0
+  releaseName: nginx
+  releaseNamespace: operations
+  values: nginx-values.yaml
+  extraArgs:
+  - --include-crds
+
+commonLabels:
+  team: operations
+namespace: operations

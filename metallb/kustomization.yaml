@@ -1,0 +1,11 @@
+helmChartInflationGenerator:
+- chartName: metallb
+  chartRepoUrl: https://charts.bitnami.com/bitnami
+  chartVersion: v2.1.2
+  releaseName: metallb
+  releaseNamespace: operations
+  values: metallb-values.yaml
+
+commonLabels:
+  team: operations
+namespace: operations

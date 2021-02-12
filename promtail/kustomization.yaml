@@ -1,0 +1,7 @@
+commonLabels:
+  team: operations
+namespace: operations
+
+resources:
+- sealedsecret.yaml
+- promtail-deployment.yaml
