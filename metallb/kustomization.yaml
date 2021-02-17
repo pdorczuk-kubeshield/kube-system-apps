@@ -4,7 +4,7 @@ helmChartInflationGenerator:
   chartVersion: v2.1.2
   releaseName: metallb
   releaseNamespace: operations
-  values: metallb-values.yaml
+  values: https://raw.githubusercontent.com/pdorczuk-kubeshield/kube-system-apps/master/metallb/metallb-values.yaml
 
 commonLabels:
   team: operations

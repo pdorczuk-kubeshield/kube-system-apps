@@ -4,7 +4,7 @@ helmChartInflationGenerator:
   chartVersion: v1.7.2
   releaseName: falco
   releaseNamespace: operations
-  values: https://raw.githubusercontent.com/pdorczuk/kube-system-apps/master/falco/falco-values.yaml
+  values: https://raw.githubusercontent.com/pdorczuk-kubeshield/kube-system-apps/master/falco/falco-values.yaml
 
 commonLabels:
   team: operations

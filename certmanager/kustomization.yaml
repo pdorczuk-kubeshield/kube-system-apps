@@ -4,7 +4,7 @@ helmChartInflationGenerator:
   chartVersion: v1.1.0
   releaseName: cert-manager
   releaseNamespace: cert-manager
-  values: certmanager-values.yaml
+  values: https://raw.githubusercontent.com/pdorczuk-kubeshield/kube-system-apps/master/certmanager/certmanager-values.yaml
 
 resources:
 - namespace.yaml
