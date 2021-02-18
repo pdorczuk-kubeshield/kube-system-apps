@@ -17,7 +17,7 @@ Give examples
 Create a Secret with your GitHub OAuth application secret.
 
 ```
-echo -n "<CLIENT_SECRET>" | kubectl create secret -n operations generic argocd-secret --dry-run=client --from-file=oauth.argocd.github.clientSecret=/dev/stdin -o yaml > secret.yaml
+echo -n "<CLIENT_SECRET>" | kubectl create secret -n operations generic argocd-secret --dry-run=true --from-file=argocd.github.clientSecret=/dev/stdin -o yaml > secret.yaml
 ```
 
 Seal the secret

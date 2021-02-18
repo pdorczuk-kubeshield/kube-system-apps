@@ -1,10 +1,8 @@
 # Kubeshield-Sealed Secrets
 
-Kustomize manifests that install Bitnami Sealed Secrets.
+Kustomize manifests that installs Bitnami Sealed Secrets.
 
 ## Getting Started
-
-These instructions will get you a copy of the project up and running on your local machine for development and testing purposes. See deployment for notes on how to deploy the project on a live system.
 
 ### Prerequisites
 
@@ -16,11 +14,14 @@ Give examples
 
 ### Installing
 
-Deploy the Helm chart with Kustomizations.
+In my case, I performed a backup of a previous key.
 
 ```
-kustomize build --enable_alpha_plugins . | kubectl create -f-
+kubectl get secret -n kube-system -l sealedsecrets.bitnami.com/sealed-secrets-key -o yaml >master.key
 ```
+
+And I restore with:
+kubectl create -f master.key
 
 ## Deployment
 

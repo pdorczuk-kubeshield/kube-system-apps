@@ -8,34 +8,41 @@ This is designed to be a test/demo envrionment mostly for me to learn Kubernetes
 
 ### Prerequisites
 
-There is a wrapper script to create a single node cluster using Kubeadm. That script does NOT install the KubeAdm [prerequisite components](https://kubernetes.io/docs/setup/production-environment/tools/kubeadm/install-kubeadm/)  If you don't use this, you'll need access to a Kubernetes cluster.
-
-You will also need access to both [Kustomize](https://kubectl.docs.kubernetes.io/installation/kustomize/) and [Helm v3](https://helm.sh/docs/intro/install/).
-
-You'll need a valid certificate to attach to Teleport. In my example I am using CertBot in a Docker container using the Cloudflare DNS challenge.
-```
-docker run -it --rm --name certbot \
-    -v "/etc/letsencrypt:/etc/letsencrypt" \
-    -v "/var/lib/letsencrypt:/var/lib/letsencrypt" \
-    certbot/dns-cloudflare certonly \
-    --dns-cloudflare \
-    --dns-cloudflare-credentials /etc/letsencrypt/cloudflare-creds \
-    -d teleport.kubeshield.com
-```
+You need a working Teleport proxy that is configured for Kubernetes authentication.
 
 ### Installing
 
-Almost all of the applications are managed with GitOps in ArgoCD. There is a chicken and egg problem so ArgoCD and its associated deployments need to be installed manually. 
-
-Install Hashicorp Vault
+I don't have a proper network-wide DNS set up so my first step is to add a static DNS entry in my cluster so that the Teleport pod knows how to reach the proxy server.
+https://medium.com/@hjrocha/add-a-custom-host-to-kubernetes-a06472cedccb
 
 ```
-cd sealedsecrets
+kubectl -n kube-system edit cm coredns
+```
+
+Change
+hosts custom.hosts <TELEPORT_URL> {
+    <TELEPORT_IP> <TELEPORT_URL>
+    fallthrough
+}
+
+Delete the CoreDNS pods so they reload the new configuration.
+```
+kubectl -n kube-system delete pod -l k8s-app=kube-dns
+```
+
+Run the get_kubeconfig.sh script which will set up RBAC inside the cluster and generate a kubeconfig file which will be used by Teleport clients.
+
+```
+bash get_kubeconfig.sh
+```
+
+Copy the kubeconfig file to whatever location is specified in your /etc/teleport.yaml file. In my case:
+
+```
+sudo cp kubeconfig /var/lib/teleport/kubeconfig
+```
+And finally deploy Teleport in the cluster.
+
+```
 kustomize build . | kubectl create -f-
-```
-
-Install ArgoCD
-
-```
-kustomize build ./argocd | kubectl create -f-
 ```
