@@ -4,7 +4,7 @@ helmChartInflationGenerator:
   chartVersion: v1.3.2
   releaseName: kyverno
   releaseNamespace: operations
-  values: kyverno-values.yaml
+  values: https://raw.githubusercontent.com/pdorczuk-kubeshield/kube-system-apps/master/kyverno/kyverno-values.yaml
   extraArgs:
   - --include-crds
 
