@@ -12,6 +12,3 @@ resources:
 commonLabels:
   team: operations
 namespace: operations
-
-patchesStrategicMerge:
-- patch_coredns_add_teleport_host.yaml
