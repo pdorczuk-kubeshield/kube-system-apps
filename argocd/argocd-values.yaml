@@ -5,7 +5,7 @@ nameOverride: argocd
 fullnameOverride: ""
 
 # Optional CRD installation for those without Helm hooks
-installCRDs: false
+installCRDs: true
 
 global:
   image:
@@ -542,8 +542,12 @@ server:
     # Argo CD instance label key
     application.instanceLabelKey: argocd.argoproj.io/instance
     repositories: |
-      - url: https://github.com/pdorczuk/kube-system-apps.git
+      - url: https://github.com/pdorczuk-kubeshield/kube-system-apps.git
         name: kube-system-apps
+      - url: https://github.com/pdorczuk-kubeshield/kubeshield-policies.git
+        name: kubeshield-policies
+      - url: https://github.com/pdorczuk-kubeshield/sock-shop.git
+        name: kubeshield-sock-shop
        
     dex.config: |
       connectors:
@@ -551,8 +555,10 @@ server:
           id: github
           name: GitHub
           config:
-            clientID: 73f1f7749a92fa489451
+            clientID: f0ba7706132dbdaa0e51
             clientSecret: $argocd.github.clientSecret
+            orgs:
+            - name: pdorczuk-kubeshield
 
   ## Annotations to be added to ArgoCD ConfigMap
   configAnnotations: {}
@@ -560,22 +566,24 @@ server:
   ## ArgoCD rbac config
   ## reference https://github.com/argoproj/argo-cd/blob/master/docs/operator-manual/rbac.md
   rbacConfig:
-    policy.default: role:admin
     # policy.csv is an file containing user-defined RBAC policies and role definitions (optional).
     # Policy rules are in the form:
     #   p, subject, resource, action, object, effect
     # Role definitions and bindings are in the form:
     #   g, subject, inherited-subject
     # See https://github.com/argoproj/argo-cd/blob/master/docs/operator-manual/rbac.md for additional information.
-    # policy.csv: |
-    #   # Grant all members of the group 'my-org:team-alpha; the ability to sync apps in 'my-project'
-    #   p, my-org:team-alpha, applications, sync, my-project/*, allow
-    #   # Grant all members of 'my-org:team-beta' admins
-    #   g, my-org:team-beta, role:admin
+    policy.csv: |
+      # Grant all members of the group 'my-org:team-alpha; the ability to sync apps in 'my-project'
+      p, pdorczuk-kubeshield:operations, applications, sync, kube-system-apps/*, allow
+      p, pdorczuk-kubeshield:development, applications, sync, sock-shop/*, allow
+      p, pdorczuk-kubeshield:security, applications, sync, kubeshield-policies/*, allow
+      
+      # Grant all members of 'my-org:team-beta' admins
+      g, pdorczuk-kubeshield:operations, role:admin
     # policy.default is the name of the default role which Argo CD will falls back to, when
     # authorizing API requests (optional). If omitted or empty, users may be still be able to login,
     # but will see no apps, projects, etc...
-    # policy.default: role:readonly
+    policy.default: role:admin
     # scopes controls which OIDC scopes to examine during rbac enforcement (in addition to `sub` scope).
     # If omitted, defaults to: '[groups]'. The scope value can be a string, or a list of strings.
     # scopes: '[cognito:groups, email]'
