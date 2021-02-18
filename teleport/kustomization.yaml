@@ -6,6 +6,9 @@ helmChartInflationGenerator:
   releaseNamespace: operations
   values: teleport_agent-values.yaml
 
+resources:
+- namespace.yaml
+
 commonLabels:
   team: operations
 namespace: operations
