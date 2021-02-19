@@ -9,5 +9,7 @@ helmChartInflationGenerator:
   - --include-crds
 
 commonLabels:
+  component: ingress
+  application: nginx
   team: operations
 namespace: operations
