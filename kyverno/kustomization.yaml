@@ -9,7 +9,7 @@ helmChartInflationGenerator:
   - --include-crds
 
 resources:
-- github.com/pdorczuk-kubeshield/kubeshield-policies
+- github.com/pdorczuk-kubeshield/kubeshield-policies//policies
 
 commonLabels:
   team: operations
