@@ -1,4 +1,6 @@
 commonLabels:
+  application: monitoring
+  component: promtail
   team: operations
 namespace: operations
 
