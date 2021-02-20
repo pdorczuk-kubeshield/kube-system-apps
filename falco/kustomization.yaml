@@ -7,5 +7,7 @@ helmChartInflationGenerator:
   values: https://raw.githubusercontent.com/pdorczuk-kubeshield/kube-system-apps/master/falco/falco-values.yaml
 
 commonLabels:
+  application: runtime-security
+  component: falco
   team: operations
 namespace: operations

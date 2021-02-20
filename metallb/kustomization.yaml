@@ -7,5 +7,7 @@ helmChartInflationGenerator:
   values: https://raw.githubusercontent.com/pdorczuk-kubeshield/kube-system-apps/master/metallb/metallb-values.yaml
 
 commonLabels:
+  application: ingress
+  component: metallb
   team: operations
 namespace: operations
