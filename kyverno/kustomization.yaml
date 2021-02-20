@@ -11,6 +11,7 @@ helmChartInflationGenerator:
 resources:
 - github.com/pdorczuk-kubeshield/kubeshield-policies//policies
 
+
 commonLabels:
   team: operations
 namespace: operations
